@@ -8,6 +8,7 @@ import { ProspectsPage } from './pages/ProspectsPage'
 import { ProspectDetailPage } from './pages/ProspectDetailPage'
 import { PipelinePage } from './pages/PipelinePage'
 import { AdminPage } from './pages/AdminPage'
+import { EmailsPage } from './pages/EmailsPage'
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
             <Route path="/prospectos" element={<ProtectedRoute><ProspectsPage /></ProtectedRoute>} />
             <Route path="/prospectos/:id" element={<ProtectedRoute><ProspectDetailPage /></ProtectedRoute>} />
             <Route path="/pipeline" element={<ProtectedRoute><PipelinePage /></ProtectedRoute>} />
+            <Route path="/correos" element={<ProtectedRoute><EmailsPage /></ProtectedRoute>} />
             <Route path="/admin" element={<ProtectedRoute adminOnly><AdminPage /></ProtectedRoute>} />
           </Routes>
         </ToastProvider>

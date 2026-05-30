@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
-import { ArrowLeft, Edit, Trash2, Phone, MessageCircle, Mail, Plus } from 'lucide-react'
+import { ArrowLeft, Edit, Trash2, Phone, MessageCircle, Mail, Plus, Send } from 'lucide-react'
 import { useProspects } from '../hooks/useProspects'
 import { useActivities } from '../hooks/useActivities'
+import { useEmailTemplates } from '../hooks/useEmails'
 import { Sidebar } from '../components/layout/Sidebar'
 import { TopBar } from '../components/layout/TopBar'
 import { Button } from '../components/ui/Button'
@@ -10,6 +11,8 @@ import { Modal } from '../components/ui/Modal'
 import { ProspectForm } from '../components/prospects/ProspectForm'
 import { ActivityForm } from '../components/activities/ActivityForm'
 import { ActivityTimeline } from '../components/activities/ActivityTimeline'
+import { TemplatePicker } from '../components/emails/TemplatePicker'
+import { EmailComposer } from '../components/emails/EmailComposer'
 import { PIPELINE_STAGES } from '../lib/constants'
 import { formatCurrency, formatDate, getSectorLabel, getParkTypeLabel, getLeadSourceLabel, getStage, whatsappLink } from '../lib/utils'
 import { useToast } from '../components/ui/Toast'
@@ -25,6 +28,9 @@ export function ProspectDetailPage() {
   const { activities, loading: activitiesLoading, createActivity } = useActivities(id)
   const [showEdit, setShowEdit] = useState(false)
   const [showActivityForm, setShowActivityForm] = useState(false)
+  const [showEmailModal, setShowEmailModal] = useState(false)
+  const [selectedTemplate, setSelectedTemplate] = useState(null)
+  const { templates, loading: templatesLoading } = useEmailTemplates()
 
   const prospect = prospects.find((p) => p.id === id)
 
@@ -184,9 +190,14 @@ export function ProspectDetailPage() {
               <div className="bg-white rounded-xl shadow-md p-6">
                 <div className="flex items-center justify-between mb-5">
                   <h3 className="font-semibold text-gray-900">Actividades</h3>
-                  <Button size="sm" onClick={() => setShowActivityForm(true)}>
-                    <Plus size={14} /> Registrar actividad
-                  </Button>
+                  <div className="flex gap-2">
+                    <Button size="sm" variant="ghost" onClick={() => setShowEmailModal(true)}>
+                      <Send size={14} /> Enviar correo
+                    </Button>
+                    <Button size="sm" onClick={() => setShowActivityForm(true)}>
+                      <Plus size={14} /> Registrar actividad
+                    </Button>
+                  </div>
                 </div>
                 <ActivityTimeline activities={activities} loading={activitiesLoading} />
               </div>
@@ -194,6 +205,29 @@ export function ProspectDetailPage() {
           </div>
         </main>
       </div>
+
+      {/* Modal envío de correo */}
+      <Modal
+        isOpen={showEmailModal}
+        onClose={() => { setShowEmailModal(false); setSelectedTemplate(null) }}
+        title="Enviar correo"
+        size="lg"
+      >
+        {selectedTemplate ? (
+          <EmailComposer
+            template={selectedTemplate}
+            prospect={prospect}
+            onBack={() => setSelectedTemplate(null)}
+            onSent={() => { setShowEmailModal(false); setSelectedTemplate(null) }}
+          />
+        ) : (
+          <TemplatePicker
+            templates={templates}
+            loading={templatesLoading}
+            onSelect={(t) => setSelectedTemplate(t)}
+          />
+        )}
+      </Modal>
 
       <Modal isOpen={showEdit} onClose={() => setShowEdit(false)} title="Editar prospecto" size="lg">
         <ProspectForm initialData={prospect} onSubmit={handleUpdate} onCancel={() => setShowEdit(false)} />
