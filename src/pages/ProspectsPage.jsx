@@ -108,7 +108,7 @@ export function ProspectsPage() {
                     return (
                       <tr key={p.id} className="hover:bg-gray-50 transition-colors">
                         <td className="px-6 py-4">
-                          <Link to={`/prospectos/${p.id}`} className="hover:underline">
+                          <Link to={`/crm/prospectos/${p.id}`} className="hover:underline">
                             <p className="text-sm font-medium text-gray-900">{p.full_name}</p>
                             {p.company_name && <p className="text-xs text-gray-400">{p.company_name}</p>}
                           </Link>

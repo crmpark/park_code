@@ -453,7 +453,7 @@ export function LandingPage() {
           </div>
           <div className="border-t border-white/10 mt-8 pt-6 flex flex-col md:flex-row items-center justify-between gap-2 text-xs text-white/30">
             <p>© 2025 BParkLife · SoluParques · Aquarela Parques. Todos los derechos reservados.</p>
-            <a href="/login" className="hover:text-white/60 transition-colors">Acceso CRM →</a>
+            <a href="/crm/login" className="hover:text-white/60 transition-colors">Acceso CRM →</a>
           </div>
         </div>
       </footer>

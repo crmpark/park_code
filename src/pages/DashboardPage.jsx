@@ -138,7 +138,7 @@ export function DashboardPage() {
                 ) : (
                   <div className="space-y-2">
                     {metrics.callsToday.slice(0, 4).map((p) => (
-                      <Link key={p.id} to={`/prospectos/${p.id}`} className="flex items-center justify-between hover:bg-white/10 rounded-lg px-2 py-1 -mx-2 transition-colors">
+                      <Link key={p.id} to={`/crm/prospectos/${p.id}`} className="flex items-center justify-between hover:bg-white/10 rounded-lg px-2 py-1 -mx-2 transition-colors">
                         <div>
                           <p className="text-sm font-medium text-white leading-tight">{p.full_name}</p>
                           <p className="text-xs text-white/40">{p.company_name}</p>
@@ -170,7 +170,7 @@ export function DashboardPage() {
                     {metrics.overdue.slice(0, 4).map((p) => {
                       const days = differenceInDays(new Date(), parseISO(p.next_contact_date))
                       return (
-                        <Link key={p.id} to={`/prospectos/${p.id}`} className="flex items-center justify-between hover:bg-white/10 rounded-lg px-2 py-1 -mx-2 transition-colors">
+                        <Link key={p.id} to={`/crm/prospectos/${p.id}`} className="flex items-center justify-between hover:bg-white/10 rounded-lg px-2 py-1 -mx-2 transition-colors">
                           <div>
                             <p className="text-sm font-medium text-white leading-tight">{p.full_name}</p>
                             <p className="text-xs text-red-300">{days}d atrasado</p>
@@ -200,7 +200,7 @@ export function DashboardPage() {
                     {metrics.stale7.slice(0, 4).map((p) => {
                       const days = differenceInDays(new Date(), parseISO(p.updated_at))
                       return (
-                        <Link key={p.id} to={`/prospectos/${p.id}`} className="flex items-center justify-between hover:bg-white/10 rounded-lg px-2 py-1 -mx-2 transition-colors">
+                        <Link key={p.id} to={`/crm/prospectos/${p.id}`} className="flex items-center justify-between hover:bg-white/10 rounded-lg px-2 py-1 -mx-2 transition-colors">
                           <div>
                             <p className="text-sm font-medium text-white leading-tight">{p.full_name}</p>
                             <p className="text-xs text-yellow-300">{days}d sin contacto</p>
@@ -316,7 +316,7 @@ export function DashboardPage() {
                   <BarChart2 size={18} className="text-[#1B4332]" />
                   <h3 className="font-semibold text-gray-900">Top oportunidades activas</h3>
                 </div>
-                <Link to="/prospectos" className="text-sm text-[#1B4332] hover:underline">Ver todas</Link>
+                <Link to="/crm/prospectos" className="text-sm text-[#1B4332] hover:underline">Ver todas</Link>
               </div>
               {loading ? (
                 <div className="space-y-3">{[...Array(5)].map((_, i) => <div key={i} className="h-14 bg-gray-100 rounded-lg animate-pulse" />)}</div>
@@ -331,7 +331,7 @@ export function DashboardPage() {
                     return (
                       <Link
                         key={p.id}
-                        to={`/prospectos/${p.id}`}
+                        to={`/crm/prospectos/${p.id}`}
                         className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors group"
                       >
                         <span className="text-lg font-bold text-gray-200 w-6 shrink-0">#{idx + 1}</span>

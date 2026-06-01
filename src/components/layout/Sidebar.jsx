@@ -3,14 +3,14 @@ import { LayoutDashboard, Users, Kanban, Settings, LogOut, TreePine, Mail } from
 import { useAuth } from '../../context/AuthContext'
 
 const navItems = [
-  { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
-  { to: '/prospectos', icon: Users, label: 'Prospectos' },
-  { to: '/pipeline', icon: Kanban, label: 'Pipeline' },
-  { to: '/correos', icon: Mail, label: 'Correos' },
+  { to: '/crm', icon: LayoutDashboard, label: 'Dashboard' },
+  { to: '/crm/prospectos', icon: Users, label: 'Prospectos' },
+  { to: '/crm/pipeline', icon: Kanban, label: 'Pipeline' },
+  { to: '/crm/correos', icon: Mail, label: 'Correos' },
 ]
 
 const adminItems = [
-  { to: '/admin', icon: Settings, label: 'Administración' },
+  { to: '/crm/admin', icon: Settings, label: 'Administración' },
 ]
 
 export function Sidebar() {
@@ -35,7 +35,7 @@ export function Sidebar() {
           <NavLink
             key={to}
             to={to}
-            end={to === '/'}
+            end={to === '/crm'}
             className={({ isActive }) =>
               `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors duration-150 ${
                 isActive

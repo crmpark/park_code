@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
 import { ToastProvider } from './components/ui/Toast'
 import { ProtectedRoute } from './components/layout/ProtectedRoute'
@@ -19,15 +19,19 @@ export default function App() {
           <Routes>
             {/* Pública */}
             <Route path="/" element={<LandingPage />} />
-            <Route path="/login" element={<LoginPage />} />
+            <Route path="/crm/login" element={<LoginPage />} />
 
-            {/* CRM protegido */}
-            <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
-            <Route path="/prospectos" element={<ProtectedRoute><ProspectsPage /></ProtectedRoute>} />
-            <Route path="/prospectos/:id" element={<ProtectedRoute><ProspectDetailPage /></ProtectedRoute>} />
-            <Route path="/pipeline" element={<ProtectedRoute><PipelinePage /></ProtectedRoute>} />
-            <Route path="/correos" element={<ProtectedRoute><EmailsPage /></ProtectedRoute>} />
-            <Route path="/admin" element={<ProtectedRoute adminOnly><AdminPage /></ProtectedRoute>} />
+            {/* CRM protegido bajo /crm */}
+            <Route path="/crm" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+            <Route path="/crm/prospectos" element={<ProtectedRoute><ProspectsPage /></ProtectedRoute>} />
+            <Route path="/crm/prospectos/:id" element={<ProtectedRoute><ProspectDetailPage /></ProtectedRoute>} />
+            <Route path="/crm/pipeline" element={<ProtectedRoute><PipelinePage /></ProtectedRoute>} />
+            <Route path="/crm/correos" element={<ProtectedRoute><EmailsPage /></ProtectedRoute>} />
+            <Route path="/crm/admin" element={<ProtectedRoute adminOnly><AdminPage /></ProtectedRoute>} />
+
+            {/* Redirigir rutas viejas */}
+            <Route path="/login" element={<Navigate to="/crm/login" replace />} />
+            <Route path="/dashboard" element={<Navigate to="/crm" replace />} />
           </Routes>
         </ToastProvider>
       </AuthProvider>

@@ -73,7 +73,7 @@ export function ProspectDetailPage() {
     if (error) toast('Error al eliminar', 'error')
     else {
       toast('Prospecto eliminado', 'success')
-      navigate('/prospectos')
+      navigate('/crm/prospectos')
     }
   }
 
@@ -106,7 +106,7 @@ export function ProspectDetailPage() {
           }
         />
         <main className="flex-1 p-6">
-          <Link to="/prospectos" className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-700 mb-4">
+          <Link to="/crm/prospectos" className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-700 mb-4">
             <ArrowLeft size={14} /> Volver a prospectos
           </Link>
 
