@@ -36,6 +36,14 @@ export function EmailComposer({ template, prospect, onBack, onSent }) {
       toast('Este prospecto no tiene email registrado', 'error')
       return
     }
+    if (!subject.trim()) {
+      toast('El asunto no puede estar vacío', 'error')
+      return
+    }
+    if (!htmlBody.trim()) {
+      toast('El cuerpo del correo no puede estar vacío', 'error')
+      return
+    }
 
     const { error } = await sendEmail({
       prospect_id: prospect.id,
@@ -47,7 +55,7 @@ export function EmailComposer({ template, prospect, onBack, onSent }) {
     if (error) {
       toast('Error al enviar: ' + error, 'error')
     } else {
-      toast(`Correo enviado a ${prospect.email}`, 'success')
+      toast(`Correo enviado a ${prospect.email} ✓`, 'success')
       onSent?.()
     }
   }
@@ -60,10 +68,13 @@ export function EmailComposer({ template, prospect, onBack, onSent }) {
           onClick={onBack}
           className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-700"
         >
-          <ArrowLeft size={14} /> Cambiar plantilla
+          <ArrowLeft size={14} /> {template ? 'Cambiar plantilla' : 'Volver'}
         </button>
         {template && (
           <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">{template.name}</span>
+        )}
+        {!template && (
+          <span className="text-xs bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full">Correo libre</span>
         )}
       </div>
 

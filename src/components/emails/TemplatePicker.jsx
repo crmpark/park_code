@@ -1,4 +1,4 @@
-import { Mail, ChevronRight } from 'lucide-react'
+import { Mail, ChevronRight, PenLine } from 'lucide-react'
 
 const CATEGORY_LABELS = {
   general: 'General',
@@ -16,7 +16,7 @@ const CATEGORY_COLORS = {
   posventa: 'bg-yellow-100 text-yellow-700',
 }
 
-export function TemplatePicker({ templates, onSelect, loading }) {
+export function TemplatePicker({ templates, onSelect, onBlank, loading }) {
   if (loading) {
     return (
       <div className="space-y-2">
@@ -27,18 +27,33 @@ export function TemplatePicker({ templates, onSelect, loading }) {
     )
   }
 
-  if (templates.length === 0) {
-    return (
-      <div className="text-center py-8">
-        <Mail size={32} className="mx-auto text-gray-300 mb-2" />
-        <p className="text-sm text-gray-400">No hay plantillas disponibles</p>
-        <p className="text-xs text-gray-400">El administrador debe crear plantillas primero</p>
-      </div>
-    )
-  }
-
   return (
     <div className="space-y-2">
+      {/* Opción: redactar desde cero */}
+      <button
+        onClick={onBlank}
+        className="w-full flex items-center gap-3 p-4 rounded-lg border border-dashed border-gray-200 hover:border-[#1B4332] hover:bg-green-50 transition-all duration-150 text-left group"
+      >
+        <div className="w-9 h-9 rounded-lg bg-gray-100 flex items-center justify-center shrink-0 group-hover:bg-[#1B4332]/10">
+          <PenLine size={18} className="text-gray-400 group-hover:text-[#1B4332]" />
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className="text-sm font-medium text-gray-700 group-hover:text-gray-900">Redactar desde cero</p>
+          <p className="text-xs text-gray-400">Escribir un correo libre sin plantilla</p>
+        </div>
+        <ChevronRight size={16} className="text-gray-300 group-hover:text-[#1B4332] shrink-0" />
+      </button>
+
+      {/* Separador */}
+      {templates.length > 0 && (
+        <div className="flex items-center gap-3 py-1">
+          <div className="flex-1 h-px bg-gray-100" />
+          <span className="text-xs text-gray-400">O usa una plantilla</span>
+          <div className="flex-1 h-px bg-gray-100" />
+        </div>
+      )}
+
+      {/* Plantillas */}
       {templates.map((template) => (
         <button
           key={template.id}
@@ -58,6 +73,12 @@ export function TemplatePicker({ templates, onSelect, loading }) {
           <ChevronRight size={16} className="text-gray-300 group-hover:text-[#1B4332] shrink-0" />
         </button>
       ))}
+
+      {templates.length === 0 && (
+        <p className="text-xs text-gray-400 text-center pt-2">
+          Aún no hay plantillas. El administrador puede crearlas en la sección Correos.
+        </p>
+      )}
     </div>
   )
 }

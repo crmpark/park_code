@@ -25,7 +25,7 @@ export function ProspectDetailPage() {
   const toast = useToast()
   const { isAdmin } = useAuth()
   const { prospects, updateProspect, updateStage, deleteProspect } = useProspects()
-  const { activities, loading: activitiesLoading, createActivity } = useActivities(id)
+  const { activities, loading: activitiesLoading, createActivity, refetch: refetchActivities } = useActivities(id)
   const [showEdit, setShowEdit] = useState(false)
   const [showActivityForm, setShowActivityForm] = useState(false)
   const [showEmailModal, setShowEmailModal] = useState(false)
@@ -213,18 +213,23 @@ export function ProspectDetailPage() {
         title="Enviar correo"
         size="lg"
       >
-        {selectedTemplate ? (
+        {selectedTemplate !== null ? (
           <EmailComposer
-            template={selectedTemplate}
+            template={selectedTemplate === 'blank' ? null : selectedTemplate}
             prospect={prospect}
             onBack={() => setSelectedTemplate(null)}
-            onSent={() => { setShowEmailModal(false); setSelectedTemplate(null) }}
+            onSent={() => {
+              setShowEmailModal(false)
+              setSelectedTemplate(null)
+              refetchActivities()
+            }}
           />
         ) : (
           <TemplatePicker
             templates={templates}
             loading={templatesLoading}
             onSelect={(t) => setSelectedTemplate(t)}
+            onBlank={() => setSelectedTemplate('blank')}
           />
         )}
       </Modal>
