@@ -3,6 +3,7 @@ import { AuthProvider } from './context/AuthContext'
 import { ToastProvider } from './components/ui/Toast'
 import { ProtectedRoute } from './components/layout/ProtectedRoute'
 import { LoginPage } from './pages/LoginPage'
+import { LandingPage } from './pages/LandingPage'
 import { DashboardPage } from './pages/DashboardPage'
 import { ProspectsPage } from './pages/ProspectsPage'
 import { ProspectDetailPage } from './pages/ProspectDetailPage'
@@ -16,8 +17,12 @@ export default function App() {
       <AuthProvider>
         <ToastProvider>
           <Routes>
+            {/* Pública */}
+            <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+
+            {/* CRM protegido */}
+            <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
             <Route path="/prospectos" element={<ProtectedRoute><ProspectsPage /></ProtectedRoute>} />
             <Route path="/prospectos/:id" element={<ProtectedRoute><ProspectDetailPage /></ProtectedRoute>} />
             <Route path="/pipeline" element={<ProtectedRoute><PipelinePage /></ProtectedRoute>} />

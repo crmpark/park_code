@@ -3,7 +3,7 @@ import { LayoutDashboard, Users, Kanban, Settings, LogOut, TreePine, Mail } from
 import { useAuth } from '../../context/AuthContext'
 
 const navItems = [
-  { to: '/', icon: LayoutDashboard, label: 'Dashboard' },
+  { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
   { to: '/prospectos', icon: Users, label: 'Prospectos' },
   { to: '/pipeline', icon: Kanban, label: 'Pipeline' },
   { to: '/correos', icon: Mail, label: 'Correos' },
