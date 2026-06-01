@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Plus, Search, Filter, Phone, MessageCircle } from 'lucide-react'
+import { differenceInDays, parseISO, isToday, isPast } from 'date-fns'
+import { Plus, Search, Phone, MessageCircle, AlertTriangle, Clock } from 'lucide-react'
 import { useProspects } from '../hooks/useProspects'
 import { Sidebar } from '../components/layout/Sidebar'
 import { TopBar } from '../components/layout/TopBar'
@@ -125,7 +126,9 @@ export function ProspectsPage() {
                           )}
                         </td>
                         <td className="px-4 py-4 text-sm text-gray-600">{formatCurrency(p.estimated_value)}</td>
-                        <td className="px-4 py-4 text-sm text-gray-600">{formatDate(p.next_contact_date)}</td>
+                        <td className="px-4 py-4">
+                          <NextContactCell date={p.next_contact_date} />
+                        </td>
                         <td className="px-4 py-4">
                           <div className="flex items-center gap-1">
                             {p.phone && (
@@ -170,4 +173,37 @@ export function ProspectsPage() {
       </Modal>
     </div>
   )
+}
+
+function NextContactCell({ date }) {
+  if (!date) return <span className="text-gray-300 text-sm">—</span>
+
+  const parsed = parseISO(date)
+  const days = differenceInDays(parsed, new Date())
+
+  if (isToday(parsed)) {
+    return (
+      <span className="inline-flex items-center gap-1 text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">
+        <Clock size={11} /> Hoy
+      </span>
+    )
+  }
+
+  if (isPast(parsed)) {
+    return (
+      <span className="inline-flex items-center gap-1 text-xs font-semibold text-red-600 bg-red-50 px-2 py-0.5 rounded-full">
+        <AlertTriangle size={11} /> {Math.abs(days)}d atrás
+      </span>
+    )
+  }
+
+  if (days <= 3) {
+    return (
+      <span className="inline-flex items-center gap-1 text-xs font-medium text-yellow-700 bg-yellow-50 px-2 py-0.5 rounded-full">
+        <Clock size={11} /> En {days}d
+      </span>
+    )
+  }
+
+  return <span className="text-sm text-gray-500">{formatDate(date)}</span>
 }
