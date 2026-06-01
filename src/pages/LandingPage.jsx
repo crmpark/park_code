@@ -43,7 +43,7 @@ const PROCESS = [
   { n: '06', title: 'Posventa', desc: 'Acompañamiento post-instalación para garantizar la durabilidad del proyecto.' },
 ]
 
-const WHATSAPP = '573001234567' // ← cambiar por el número real
+const WHATSAPP = '573008744506' // ← cambiar por el número real
 
 export function LandingPage() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -317,7 +317,7 @@ export function LandingPage() {
                       </div>
                       Escríbenos por WhatsApp
                     </a>
-                    <a href="tel:+573001234567"
+                    <a href="tel:+573008744506"
                       className="flex items-center gap-3 text-white/80 hover:text-white transition-colors text-sm">
                       <div className="w-9 h-9 rounded-lg bg-blue-600/20 flex items-center justify-center">
                         <Phone size={16} className="text-blue-400" />
@@ -364,7 +364,7 @@ export function LandingPage() {
                       <div>
                         <label className="text-xs font-medium text-gray-600 block mb-1">WhatsApp / Teléfono *</label>
                         <input required value={formData.phone} onChange={e => set('phone', e.target.value)}
-                          placeholder="573001234567"
+                          placeholder="573008744506"
                           className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#1B4332] focus:border-transparent outline-none" />
                       </div>
                       <div>
@@ -441,7 +441,7 @@ export function LandingPage() {
                 className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-green-600/30 hover:text-white transition-colors">
                 <MessageCircle size={18} />
               </a>
-              <a href="tel:+573001234567"
+              <a href="tel:+573008744506"
                 className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-blue-600/30 hover:text-white transition-colors">
                 <Phone size={18} />
               </a>
