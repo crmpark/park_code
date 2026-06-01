@@ -11,6 +11,7 @@ export function ProspectForm({ onSubmit, onCancel, initialData = {} }) {
   const [submitting, setSubmitting] = useState(false)
 
   const [form, setForm] = useState({
+    client_type: 'b2b',
     full_name: '',
     email: '',
     phone: '',
