@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
-import { ArrowLeft, Edit, Trash2, Phone, Mail, Plus, Send } from 'lucide-react'
+import { ArrowLeft, Edit, Trash2, Phone, MessageCircle, Mail, Plus, Send } from 'lucide-react'
 import { useProspects } from '../hooks/useProspects'
 import { useActivities } from '../hooks/useActivities'
 import { useEmailTemplates } from '../hooks/useEmails'
@@ -133,40 +133,79 @@ export function ProspectDetailPage() {
               {/* Contact */}
               <div className="bg-white rounded-xl shadow-md p-5">
                 <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-3">Contacto rápido</p>
-                <div className="flex gap-2">
+
+                {/* Datos de contacto */}
+                <div className="space-y-2 mb-3">
+                  {prospect.email && (
+                    <div className="flex items-center gap-2 text-sm text-gray-700">
+                      <Mail size={14} className="text-gray-400 shrink-0" />
+                      <a href={`mailto:${prospect.email}`} className="hover:underline hover:text-[#1B4332] truncate">{prospect.email}</a>
+                    </div>
+                  )}
                   {prospect.phone && (
-                    <>
+                    <div className="flex items-center gap-2 text-sm text-gray-700">
+                      <Phone size={14} className="text-gray-400 shrink-0" />
+                      <span>{prospect.phone}</span>
+                    </div>
+                  )}
+                  {prospect.whatsapp && (
+                    <div className="flex items-center gap-2 text-sm text-gray-700">
+                      <MessageCircle size={14} className="text-green-500 shrink-0" />
+                      <span className="text-gray-500 text-xs">WhatsApp:</span>
+                      <span>{prospect.whatsapp}</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Botones de acción */}
+                <div className="flex flex-wrap gap-2">
+                  {prospect.phone && (
+                    <a
+                      href={`tel:${prospect.phone}`}
+                      className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg bg-blue-50 text-blue-700 text-sm hover:bg-blue-100 transition-colors min-w-[80px]"
+                    >
+                      <Phone size={15} /> Llamar
+                    </a>
+                  )}
+                  {prospect.whatsapp && (
+                    <div className="flex-1 min-w-[80px]">
                       <WhatsAppPicker
-                        phone={prospect.phone}
+                        phone={prospect.whatsapp}
                         prospectName={prospect.full_name}
                         companyName={prospect.company_name}
                         pipelineStage={prospect.pipeline_stage}
                         advisorName={profile?.full_name}
                         size="md"
                       />
-                      <a
-                        href={`tel:${prospect.phone}`}
-                        className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg bg-blue-50 text-blue-700 text-sm hover:bg-blue-100 transition-colors"
-                      >
-                        <Phone size={16} /> Llamar
-                      </a>
-                    </>
+                    </div>
                   )}
                   {prospect.email && (
                     <a
                       href={`mailto:${prospect.email}`}
-                      className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg bg-gray-50 text-gray-700 text-sm hover:bg-gray-100 transition-colors"
+                      className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg bg-gray-50 text-gray-700 text-sm hover:bg-gray-100 transition-colors min-w-[80px]"
                     >
-                      <Mail size={16} /> Email
+                      <Mail size={15} /> Email
                     </a>
                   )}
                 </div>
+
+                {!prospect.whatsapp && (
+                  <button
+                    onClick={() => setShowEdit(true)}
+                    className="mt-2 w-full text-xs text-center text-[#52B788] hover:text-[#1B4332] transition-colors"
+                  >
+                    + Registrar número de WhatsApp
+                  </button>
+                )}
               </div>
 
               {/* Details */}
               <div className="bg-white rounded-xl shadow-md p-5 space-y-3">
-                <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">Información del proyecto</p>
+                <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">Información del prospecto</p>
                 <Detail label="Empresa" value={prospect.company_name} />
+                <Detail label="Email" value={prospect.email} />
+                <Detail label="Teléfono" value={prospect.phone} />
+                <Detail label="WhatsApp" value={prospect.whatsapp} />
                 <Detail label="Ciudad" value={prospect.city && prospect.department ? `${prospect.city}, ${prospect.department}` : prospect.city} />
                 <Detail label="Sector" value={getSectorLabel(prospect.sector)} />
                 <Detail label="Tipo de parque" value={getParkTypeLabel(prospect.park_type)} />

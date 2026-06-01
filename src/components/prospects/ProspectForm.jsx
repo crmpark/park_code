@@ -15,6 +15,7 @@ export function ProspectForm({ onSubmit, onCancel, initialData = {} }) {
     full_name: '',
     email: '',
     phone: '',
+    whatsapp: '',
     company_name: '',
     city: '',
     department: '',
@@ -70,11 +71,23 @@ export function ProspectForm({ onSubmit, onCancel, initialData = {} }) {
           onChange={(e) => set('email', e.target.value)}
         />
         <Input
-          label="Teléfono / WhatsApp"
+          label="Teléfono (fijo o móvil)"
           value={form.phone}
           onChange={(e) => set('phone', e.target.value)}
-          placeholder="573001234567"
+          placeholder="Ej: 6014567890 o 3001234567"
         />
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <Input
+          label="WhatsApp"
+          value={form.whatsapp}
+          onChange={(e) => set('whatsapp', e.target.value)}
+          placeholder="57300... (con indicativo)"
+        />
+        <div className="flex items-end pb-0.5">
+          <p className="text-xs text-gray-400">Ingresa el número con indicativo para habilitar el botón de WhatsApp directo.</p>
+        </div>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
