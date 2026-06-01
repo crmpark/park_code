@@ -182,9 +182,10 @@ export function ProspectDetailPage() {
                   {prospect.email && (
                     <a
                       href={`mailto:${prospect.email}`}
-                      className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg bg-gray-50 text-gray-700 text-sm hover:bg-gray-100 transition-colors min-w-[80px]"
+                      className="w-full flex items-center gap-2 py-2 px-3 rounded-lg bg-gray-50 text-gray-700 text-sm hover:bg-gray-100 transition-colors"
                     >
-                      <Mail size={15} /> Email
+                      <Mail size={15} className="shrink-0" />
+                      <span className="truncate">{prospect.email}</span>
                     </a>
                   )}
                 </div>
