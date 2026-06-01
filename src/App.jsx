@@ -10,6 +10,7 @@ import { ProspectDetailPage } from './pages/ProspectDetailPage'
 import { PipelinePage } from './pages/PipelinePage'
 import { AdminPage } from './pages/AdminPage'
 import { EmailsPage } from './pages/EmailsPage'
+import { WhatsAppPage } from './pages/WhatsAppPage'
 
 export default function App() {
   return (
@@ -27,6 +28,7 @@ export default function App() {
             <Route path="/crm/prospectos/:id" element={<ProtectedRoute><ProspectDetailPage /></ProtectedRoute>} />
             <Route path="/crm/pipeline" element={<ProtectedRoute><PipelinePage /></ProtectedRoute>} />
             <Route path="/crm/correos" element={<ProtectedRoute><EmailsPage /></ProtectedRoute>} />
+            <Route path="/crm/whatsapp" element={<ProtectedRoute><WhatsAppPage /></ProtectedRoute>} />
             <Route path="/crm/admin" element={<ProtectedRoute adminOnly><AdminPage /></ProtectedRoute>} />
 
             {/* Redirigir rutas viejas */}

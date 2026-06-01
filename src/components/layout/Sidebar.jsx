@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, Users, Kanban, Settings, LogOut, TreePine, Mail } from 'lucide-react'
+import { LayoutDashboard, Users, Kanban, Settings, LogOut, TreePine, Mail, MessageCircle } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 
 const navItems = [
@@ -7,6 +7,7 @@ const navItems = [
   { to: '/crm/prospectos', icon: Users, label: 'Prospectos' },
   { to: '/crm/pipeline', icon: Kanban, label: 'Pipeline' },
   { to: '/crm/correos', icon: Mail, label: 'Correos' },
+  { to: '/crm/whatsapp', icon: MessageCircle, label: 'WhatsApp' },
 ]
 
 const adminItems = [

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
-import { ArrowLeft, Edit, Trash2, Phone, MessageCircle, Mail, Plus, Send } from 'lucide-react'
+import { ArrowLeft, Edit, Trash2, Phone, Mail, Plus, Send } from 'lucide-react'
 import { useProspects } from '../hooks/useProspects'
 import { useActivities } from '../hooks/useActivities'
 import { useEmailTemplates } from '../hooks/useEmails'
@@ -13,6 +13,7 @@ import { ActivityForm } from '../components/activities/ActivityForm'
 import { ActivityTimeline } from '../components/activities/ActivityTimeline'
 import { TemplatePicker } from '../components/emails/TemplatePicker'
 import { EmailComposer } from '../components/emails/EmailComposer'
+import { WhatsAppPicker } from '../components/whatsapp/WhatsAppPicker'
 import { PIPELINE_STAGES } from '../lib/constants'
 import { formatCurrency, formatDate, getSectorLabel, getParkTypeLabel, getLeadSourceLabel, getStage, whatsappLink } from '../lib/utils'
 import { useToast } from '../components/ui/Toast'
@@ -23,7 +24,7 @@ export function ProspectDetailPage() {
   const { id } = useParams()
   const navigate = useNavigate()
   const toast = useToast()
-  const { isAdmin } = useAuth()
+  const { isAdmin, profile } = useAuth()
   const { prospects, updateProspect, updateStage, deleteProspect } = useProspects()
   const { activities, loading: activitiesLoading, createActivity, refetch: refetchActivities } = useActivities(id)
   const [showEdit, setShowEdit] = useState(false)
@@ -135,14 +136,14 @@ export function ProspectDetailPage() {
                 <div className="flex gap-2">
                   {prospect.phone && (
                     <>
-                      <a
-                        href={whatsappLink(prospect.phone, `Hola ${prospect.full_name}, te contactamos de BParkLife.`)}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg bg-green-50 text-green-700 text-sm hover:bg-green-100 transition-colors"
-                      >
-                        <MessageCircle size={16} /> WhatsApp
-                      </a>
+                      <WhatsAppPicker
+                        phone={prospect.phone}
+                        prospectName={prospect.full_name}
+                        companyName={prospect.company_name}
+                        pipelineStage={prospect.pipeline_stage}
+                        advisorName={profile?.full_name}
+                        size="md"
+                      />
                       <a
                         href={`tel:${prospect.phone}`}
                         className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg bg-blue-50 text-blue-700 text-sm hover:bg-blue-100 transition-colors"
