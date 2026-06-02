@@ -83,49 +83,41 @@ export function useSendEmail() {
   async function sendEmail({ prospect_id, template_id, custom_subject, custom_html, prospect, advisorId }) {
     setSending(true)
     try {
-      const BREVO_KEY  = import.meta.env.VITE_BREVO_API_KEY
-      const FROM_EMAIL = import.meta.env.VITE_FROM_EMAIL ?? 'espaciosconbienestar@gmail.com'
-      const FROM_NAME  = import.meta.env.VITE_FROM_NAME  ?? 'BParkLife'
-
-      // Enviar via Brevo directamente desde el navegador
-      const brevoRes = await fetch('https://api.brevo.com/v3/smtp/email', {
+      // Vercel function maneja el CORS con Brevo
+      const res = await fetch('/api/send-email', {
         method: 'POST',
-        headers: { 'api-key': BREVO_KEY, 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          sender: { name: FROM_NAME, email: FROM_EMAIL },
-          to: [{ email: prospect.email, name: prospect.full_name }],
-          subject: custom_subject,
-          htmlContent: custom_html,
+          to_email: prospect.email,
+          to_name:  prospect.full_name,
+          subject:  custom_subject,
+          html:     custom_html,
         }),
       })
 
-      const brevoData = await brevoRes.json()
+      const data = await res.json()
+      if (!res.ok) return { data: null, error: data.error ?? 'Error al enviar' }
 
-      if (!brevoRes.ok) {
-        return { data: null, error: brevoData.message ?? 'Error al enviar correo' }
-      }
-
-      // Registrar en sent_emails
+      // Guardar en Supabase desde el frontend
       await supabase.from('sent_emails').insert({
         prospect_id,
-        advisor_id: advisorId,
+        advisor_id:  advisorId,
         template_id: template_id ?? null,
-        subject: custom_subject,
-        to_email: prospect.email,
-        html_body: custom_html,
-        status: 'sent',
+        subject:     custom_subject,
+        to_email:    prospect.email,
+        html_body:   custom_html,
+        status:      'sent',
       })
 
-      // Registrar actividad
       await supabase.from('activities').insert({
         prospect_id,
-        advisor_id: advisorId,
+        advisor_id:    advisorId,
         activity_type: 'email',
-        title: `Correo enviado: ${custom_subject}`,
-        description: `Enviado a ${prospect.email}`,
+        title:         `Correo enviado: ${custom_subject}`,
+        description:   `Enviado a ${prospect.email}`,
       })
 
-      return { data: brevoData, error: null }
+      return { data, error: null }
     } catch (err) {
       return { data: null, error: err.message ?? 'Error de conexión' }
     } finally {
