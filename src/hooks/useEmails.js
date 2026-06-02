@@ -84,18 +84,14 @@ export function useSendEmail() {
     setSending(true)
     try {
       const { data: { session } } = await supabase.auth.getSession()
-      const res = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-email`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${session?.access_token}`,
-            'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY,
-          },
-          body: JSON.stringify({ prospect_id, template_id, custom_subject, custom_html }),
-        }
-      )
+      const res = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session?.access_token}`,
+        },
+        body: JSON.stringify({ prospect_id, template_id, custom_subject, custom_html }),
+      })
       const data = await res.json()
       return { data, error: res.ok ? null : (data.error ?? 'Error al enviar') }
     } catch (err) {
