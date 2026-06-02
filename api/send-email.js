@@ -20,18 +20,22 @@ export default async function handler(req) {
       })
     }
 
-    const BREVO_KEY  = process.env.VITE_BREVO_API_KEY
-    const FROM_EMAIL = process.env.VITE_FROM_EMAIL ?? 'espaciosconbienestar@gmail.com'
-    const FROM_NAME  = process.env.VITE_FROM_NAME  ?? 'BParkLife'
+    const BREVO_KEY   = process.env.VITE_BREVO_API_KEY
+    const REPLY_EMAIL = process.env.VITE_FROM_EMAIL ?? 'espaciosconbienestar@gmail.com'
+    const FROM_NAME   = process.env.VITE_FROM_NAME  ?? 'BParkLife'
 
     const brevoRes = await fetch('https://api.brevo.com/v3/smtp/email', {
       method: 'POST',
       headers: { 'api-key': BREVO_KEY, 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        sender:      { name: FROM_NAME, email: FROM_EMAIL },
+        sender:      { name: FROM_NAME, email: REPLY_EMAIL },
         to:          [{ email: to_email, name: to_name ?? to_email }],
+        replyTo:     { email: REPLY_EMAIL, name: FROM_NAME },
         subject,
         htmlContent: html,
+        headers: {
+          'X-Mailer': 'BParkLife CRM',
+        },
       }),
     })
 
