@@ -4,6 +4,7 @@ import { Button } from '../ui/Button'
 import { Input, Textarea } from '../ui/Input'
 import { useSendEmail } from '../../hooks/useEmails'
 import { useToast } from '../ui/Toast'
+import { useAuth } from '../../context/AuthContext'
 
 // Reemplaza variables {{key}} con los datos del prospecto
 function renderPreview(text, prospect) {
@@ -23,6 +24,7 @@ function renderPreview(text, prospect) {
 
 export function EmailComposer({ template, prospect, onBack, onSent }) {
   const toast = useToast()
+  const { profile } = useAuth()
   const { sendEmail, sending } = useSendEmail()
   const [showPreview, setShowPreview] = useState(false)
   const [subject, setSubject] = useState(template?.subject ?? '')
@@ -50,6 +52,8 @@ export function EmailComposer({ template, prospect, onBack, onSent }) {
       template_id: template?.id ?? null,
       custom_subject: previewSubject,
       custom_html: previewHtml,
+      prospect,
+      advisorId: profile?.id,
     })
 
     if (error) {
